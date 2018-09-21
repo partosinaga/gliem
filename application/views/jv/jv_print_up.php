@@ -48,7 +48,7 @@
               echo number_format($h->total);
             } ?>
           </td>
-          
+
           <td>Tgl</td>
           <td>:
             <?php foreach ($header as $h) {

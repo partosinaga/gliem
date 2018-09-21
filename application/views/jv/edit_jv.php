@@ -18,13 +18,14 @@
                     <div class="portlet box blue-madison">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-edit"></i> Edit Invoice
+                                <?php foreach ($editjvh as $jvh) { ?>
+                                <?php echo $jvh->no_voucher ?>
                             </div>
                         </div>
 
                         <div class="portlet-body">
 
-                            <?php foreach ($editjvh as $jvh) { ?>
+
                             <form action="javascript:;" method="post" id="form-entry" class="form-horizontal">
                                 <div class="row">
 
@@ -34,7 +35,7 @@
 
                                     <input type="hidden" name="id2"  class="form-control input" value="<?php echo $jvh->no_voucher ?>" readonly>
 
-                                    <div class="col-md-3">
+                                    <div class="hidden">
                                         <label>No.Voucher</label>
                                         <div class="input-icon">
                                             <i class="fa fa-key font-green"></i>
@@ -65,32 +66,19 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-3">
-                                        <label>Cashflow Transaction</label>
-                                        <div class="md-checkbox has-success" style="margin-top: 10px">
-                                            <?php
-                                            if($jvh->is_cashflow == 'on'){
-                                                echo '
-                                                        <input type="checkbox" id="checkbox9" name="cashflow" class="md-check" checked>
-                                                        <label for="checkbox9">
-                                                        <span></span>
-                                                        <span class="check"></span>
-                                                        <span class="box"></span> Cashflow </label>
-                                                    ';
-                                            }else{
-                                                echo '
-                                                        <input type="checkbox" id="checkbox9" name="cashflow" class="md-check">
-                                                        <label for="checkbox9">
-                                                        <span></span>
-                                                        <span class="check"></span>
-                                                        <span class="box"></span> Cashflow </label>
-                                                    ';
-                                            }
-                                            ?>
+                                    <div class="col-md-6">
+                                        <label>Tag</label>
+                                        <div class="input-icon select2-bootstrap-prepend">
+                                            <select id="multi-prepend" name="tag[]" class="form-control select2" multiple >
+                                                <option></option>
+                                                <?php
+                                                foreach($tag as $t){
+                                                    echo '<option value="'.$t->id.'">'.$t->name_tag.'</option>';
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
-
                                 </div><br>
 
                                 <div class="row">
@@ -138,20 +126,20 @@
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label>Receive From</label>
+                                        <label>Receive From/Paid to</label>
                                         <div class="input-icon">
                                             <i class=" fa fa-plus-square-o font-green"></i>
                                             <input type="text" name="receive_from" id="receive_from" class="form-control input" placeholder="Receive from" value="<?php echo $jvh->receive_from ?>">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <label>No.Cek/Giro</label>
-                                        <div class="input-icon">
-                                            <i class="fa fa-dollar font-green"></i>
-                                            <input type="text" name="no_cek" id="no_cek" class="form-control input" placeholder="Cek/Giro Number" value="<?php echo $jvh->no_cek ?>">
-                                        </div>
-                                    </div>
+<!--                                    <div class="col-md-4">-->
+<!--                                        <label>No.Cek/Giro</label>-->
+<!--                                        <div class="input-icon">-->
+<!--                                            <i class="fa fa-dollar font-green"></i>-->
+<!--                                            <input type="text" name="no_cek" id="no_cek" class="form-control input" placeholder="Cek/Giro Number" value="--><?php //echo $jvh->no_cek ?><!--">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
 
 
                                     <div class="col-md-4">
@@ -159,6 +147,30 @@
                                         <div class="input-icon">
                                             <i class="fa fa-calendar-plus-o font-green"></i>
                                             <input type="date" name="gl_date" id="gl_date" class="form-control input" placeholder="General Ledger Date" value="<?php echo $jvh->gl_date ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Cashflow Transaction</label>
+                                        <div class="md-checkbox has-success" style="margin-top: 10px">
+                                            <?php
+                                            if($jvh->is_cashflow == 'on'){
+                                                echo '
+                                                        <input type="checkbox" id="checkbox9" name="cashflow" class="md-check" checked>
+                                                        <label for="checkbox9">
+                                                        <span></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span> Cashflow </label>
+                                                    ';
+                                            }else{
+                                                echo '
+                                                        <input type="checkbox" id="checkbox9" name="cashflow" class="md-check">
+                                                        <label for="checkbox9">
+                                                        <span></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span> Cashflow </label>
+                                                    ';
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div><br>
@@ -206,18 +218,11 @@
                                             <th colspan="5" >
                                                 <a class="btn green red-stripe btn-xs" data-target="#static" data-toggle="modal"><b> Add Detail</b> </a>
                                             </th>
-
-                                            <!-- <th class="text-right" >TOTAL</th>
-                                            <th>
-                                              <input type="text" class="form-control input input-sm text-right" placeholder="0" readonly>
-                                            </th>
-                                            <th>
-                                              <input type="text" class="form-control input input-sm text-right" placeholder="0" readonly> -->
                                             </th>
                                             </tfoot>
                                         </table>
                                         <button onclick="goBack()"  class="btn red  green-stripe"><i class="fa fa-remove" ></i> Back</button>
-                                        <button type="button" class="btn red green-stripe pull-right" name="save"><i class="fa fa-save" ></i> Save</button>
+                                        <button type="button" class="btn green red-stripe pull-right" name="save"><i class="fa fa-save" ></i> Save</button>
                                     </div>
                                 </div>
                             </form>
@@ -393,7 +398,6 @@
             var url = '<?php echo base_url('/index.php/jv/jv/save_edit');?>';
             $("#form-entry").attr("method", "post");
             $('#form-entry').attr('action', url).submit();
-
         } else {
             toastr.error('Debit & Credit not balance (' + (sum_debit - sum_credit) + ') ');
         }
@@ -409,4 +413,10 @@
     function goBack() {
         window.history.back();
     }
+    //get selected tags
+    $(document).ready(function () {
+        $(function(){
+            $("#multi-prepend").select2().val([<?php echo $selectedTag->tag_id?>]).trigger('change.select2');
+        });
+    });
 </script>

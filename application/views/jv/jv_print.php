@@ -30,7 +30,7 @@
           <td width="15%">Bayar Kepada</td>
           <td>:
             <?php foreach ($header as $h) {
-              echo $h->receive_from;
+              echo $h->name;
             } ?>
           </td>
           <td width="10%">No</td>

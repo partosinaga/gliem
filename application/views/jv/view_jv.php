@@ -19,7 +19,7 @@
                     <div class="portlet box blue-madison">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-book"></i> New
+                                <?php echo $kode; ?>
                             </div>
                         </div>
 
@@ -40,9 +40,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="hidden">
                                         <label>No.Voucher</label>
-
                                         <div class="input-icon">
                                             <i class="fa fa-key font-green"></i>
                                             <input type="text" name="no_voucher" id="no_voucher"
@@ -67,7 +66,7 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        <label for="single" class="control-label"><b>Bank Code</b></label>
+                                        <label>Bank Code</label>
 
                                         <div class="input-icon">
                                             <select id="bank_id" class="form-control select2" name="bank_id" required>
@@ -82,20 +81,19 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-3">
-                                        <label>Cashflow Transaction</label>
-                                        <div class="md-checkbox has-success" style="margin-top: 10px">
-                                            <input type="checkbox" id="checkbox9" name="cashflow" class="md-check">
-                                            <label for="checkbox9">
-                                                <span></span>
-                                                <span class="check"></span>
-                                                <span class="box"></span> Cashflow </label>
+                                    <div class="col-md-6">
+                                        <label>Tag</label>
+                                        <div class="input-icon select2-bootstrap-prepend">
+                                            <select id="multi-prepend" name="tag[]" class="form-control select2" multiple >
+                                                <option></option>
+                                                <?php
+                                                foreach($tag as $t){
+                                                    echo '<option value="'.$t->id.'">'.$t->name_tag.'</option>';
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
-
-
-
                                 </div>
                                 <br>
 
@@ -110,7 +108,7 @@
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label for="single" class="control-label"><b>Currency</b></label>
+                                        <label>Currency</label>
 
                                         <div class="input-icon">
                                             <select id="curr_id" class="form-control select2" name="curr_id">
@@ -125,7 +123,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label>Total</label>
 
                                         <div class="input-icon">
@@ -149,36 +147,42 @@
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label>Receive From</label>
-
+                                        <label>Receive from/paid to</label>
                                         <div class="input-icon">
                                             <i class=" fa fa-plus-square-o font-green"></i>
                                             <input type="text" name="receive_from" id="receive_from"
-                                                   class="form-control input" placeholder="Receive from">
+                                                   class="form-control input" placeholder="Receive from/paid to">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label>No.Cek/Giro</label>
-
-                                        <div class="input-icon">
-                                            <i class="fa fa-dollar font-green"></i>
-                                            <input type="text" name="no_cek" id="no_cek" class="form-control input"
-                                                   placeholder="Cek/Giro Number">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
+<!--                                    <div class="col-md-4">-->
+<!--                                        <label>No.Cek/Giro</label>-->
+<!---->
+<!--                                        <div class="input-icon">-->
+<!--                                            <i class="fa fa-dollar font-green"></i>-->
+<!--                                            <input type="text" name="no_cek" id="no_cek" class="form-control input"-->
+<!--                                                   placeholder="Cek/Giro Number">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                    <div class="col-md-3">
                                         <label for="form_control_1">GL Date</label>
-
                                         <div class="input-group input-medium date date-picker"
                                              data-date-format="yyyy-mm-dd" data-date-viewmode="years">
-                                            <input type="text" placeholder="Klik to open calender"
-                                                   class="form-control input" id="gl_date" name="gl_date" readonly=""
-                                                   required="">
-                            <span class="input-group-btn">
-                              <button class="btn default" type="button">
-                                  <i class="fa fa-calendar"></i>
-                              </button>
-                              </span>
+                                            <input type="text" placeholder="Klik to open calender" class="form-control input" id="gl_date" name="gl_date" readonly="" required="">
+                                            <span class="input-group-btn">
+                                              <button class="btn default" type="button">
+                                                  <i class="fa fa-calendar"></i>
+                                              </button>
+                                              </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Cashflow Transaction</label>
+                                        <div class="md-checkbox has-success" style="margin-top: 8px">
+                                            <input type="checkbox" id="checkbox9" name="cashflow" class="md-check">
+                                            <label for="checkbox9">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> Cashflow </label>
                                         </div>
                                     </div>
                                 </div>
@@ -204,14 +208,6 @@
                                                 <a class="btn green red-stripe btn-xs" data-target="#static"
                                                    data-toggle="modal"><b> Add Detail</b> </a>
                                             </th>
-                                            <!--
-                                                                          <th class="text-right" >TOTAL</th>
-                                                                          <th>
-                                                                            <input type="text" class="form-control input input-sm text-right" placeholder="0" readonly>
-                                                                          </th>
-                                                                          <th>
-                                                                            <input type="text" class="form-control input input-sm text-right" placeholder="0" readonly>
-                                                                          </th> -->
                                             </tfoot>
                                         </table>
                                         <button type="button" class="btn red green-stripe pull-right" name="save"><i
@@ -240,7 +236,7 @@
             <tr>
                 <th width="50px">COA ID</th>
                 <th>DESCRIPTION</th>
-                <th width="200px">POSITION</th>
+                <th width="auto" style="text-align: center">POSITION</th>
                 <th width="10px"></th>
             </tr>
             </thead>
@@ -331,7 +327,7 @@
             "<tr>" +
 
             "<td align=\"center\"> <input type=hidden name=\"coa_id[]\"  id = \"coa_id\" value= " + coaID + ">  " + coaID + " </td>" +
-            "<td> <textarea class=\"form-control\" placeholder=\"If this box empty, make sure to fill Header Description first than choose COA\">" + desc + "</textarea> </td>" +
+            "<td> <textarea class=\"form-control\" placeholder=\"Enter description first\">" + desc + "</textarea> </td>" +
 
             "<td><input type=\"text\" name=\"debit[]\" id=\"debit\"  class=\"form-control input-sm mask_currency text-right debit\"  value = 0 ></td>" +
 
@@ -399,7 +395,6 @@
         var x = document.forms["myFormJ"]["total"].value;
         var x = document.forms["myFormJ"]["kurs"].value;
         var x = document.forms["myFormJ"]["receive_from"].value;
-        var x = document.forms["myFormJ"]["no_cek"].value;
         var x = document.forms["myFormJ"]["gl_date"].value;
         if (x == "") {
             $('#myModal').modal('show');

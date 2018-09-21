@@ -108,7 +108,7 @@
 
       </div>
       <div class="modal-footer">
-          <a href="<?php echo site_url().'/ar/ar/save_unposting?id='.$p->no_voucher ?>"  >
+          <a href="<?php echo site_url('ar/ar/save_unposting?id=').$p->no_voucher.'&gl='.$p->gl_no ?>"  >
            <button type="button" class="btn btn-success"><i class="fa fa-check"></i> OK</button>
           </a>
 
