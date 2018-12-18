@@ -123,7 +123,7 @@
                 //GET ROW DETAIL ACCOUNT
                 echo '
                     <tr style="cursor: pointer">
-                        <td class="content" onclick="breakdown(\''.$row->id_detail.'\',\''.$dateFrom.'\',\''.$dateTo.'\',\''.$row->account.'\')">' .$row->account . '</td>
+                        <td class="content" onclick="breakdown(\''.$row->id_detail.'\' , \''.$dateFrom.'\' , \''.$dateTo.'\',\''.$row->account.'\')">' .$row->account . '</td>
                         <td class="content" onclick="breakdown(\''.$row->id_detail.'\',\''.$dateFrom.'\',\''.$dateTo.'\',\''.$row->account.'\')" align="right">'.number_format($current_month).'</td>
                         <td class="content" onclick="breakdownYtd(\''.$row->id_detail.'\',\''.$dateTo.'\',\''.$yearStart.'\', \''.$row->account.'\')" align="right">'.number_format($previous).'</td>
                     </tr>';

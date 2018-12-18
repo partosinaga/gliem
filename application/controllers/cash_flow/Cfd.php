@@ -19,10 +19,10 @@ class cfd extends CI_Controller
 
     public function view_cfd()
     {
-        echo $date = $this->input->get('periode');
+        $date = $this->input->get('periode');
 
         $first_date_find = strtotime(date("Y-m-d", strtotime($date)) . ", first day of this month");
-        echo $date_from = date("Y-m-d",$first_date_find)."<br>";
+        $date_from = date("Y-m-d",$first_date_find)."<br>";
         $yearOnly = substr($date, 0, 4);
         $yearStart = $yearOnly.'-01-01';
         $lastyear = strtotime ( '-1 year' , strtotime ( $date ) ) ;

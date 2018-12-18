@@ -266,7 +266,7 @@ class jv extends CI_Controller
         $kd = "";
         $posted_no = "";
         $gld = New DateTime($gl_date);
-        $kd2 = "6" . $gld->format('ym');
+        $kd2 = "6" . $gld->format('my');
         if ($q->num_rows() > 0) {
             foreach ($q->result() as $k) {
                 $tmp = ((int)$k->kt) + 1;

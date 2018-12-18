@@ -397,8 +397,7 @@
     function deleteRow(btn) {
         var row = btn.parentNode.parentNode;
         row.parentNode.removeChild(row);
-    }
-    ;
+    };
 
     $(document).ready(function(){
         $('.select-contact').on("click", function (){
@@ -445,6 +444,7 @@
 
     $(document).ready(function () {
         $('#example').DataTable();
+        $('#example2').DataTable();
     });
 
 

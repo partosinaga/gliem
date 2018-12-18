@@ -473,7 +473,11 @@ class M_ap extends CI_Model
         return $result;
     }
 
-
+    public function validation($no_voucher)
+    {
+        $data = $this->db->query("select * from gl_header where Fmodule = 'ap' and reff_no = '".$no_voucher."'");
+        return $data->result();
+    }
 }
 
 ?>

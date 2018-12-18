@@ -206,7 +206,7 @@ class ar extends CI_Controller
                     </div><br>
                     <div class="row">
                         <div class="col-md-3">
-                          <label>NO.CEL/GIRO</label><br>
+                          <label>NO.CEK/GIRO</label><br>
                         ' . $row->no_cek . '
                         </div>
                         <div class="col-md-3">

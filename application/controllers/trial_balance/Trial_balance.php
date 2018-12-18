@@ -28,6 +28,8 @@ class trial_balance extends CI_Controller
         $year_start = $yearOnly.'-01-01'."<br>";//get year only
 
         $date_from = $date.'-01';
+
+        
         $last_date_find = strtotime(date("Y-m-d", strtotime($date)) . ",last day of this month");
         $date_to = date("Y-m-d",$last_date_find);
 

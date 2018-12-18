@@ -171,7 +171,7 @@ class ap extends CI_Controller
 
                 <div class="row">
                     <div class="col-md-3">
-                      <label>NO.CEL/GIRO</label><br>
+                      <label>NO.CEK/GIRO</label><br>
                     ' . $row->no_cek . '
                     </div>
                     <div class="col-md-3">
@@ -257,85 +257,95 @@ class ap extends CI_Controller
         $gl_date = $this->input->post('gl_date');
         $audit_user = $this->session->userdata('username');
         $audit_date = date('Y-m-d H:i:s');
-
-        $q = $this->db->query("
-		          SELECT
-		            MAX( RIGHT ( gl_no, 4 ) ) AS kt 
-		          FROM
-		            gl_header 
-		          WHERE
-		            Fmodule = 'AP' 
-		            AND MONTH ( gl_date ) = MONTH ( '" . $gl_date . "' )
-		            AND YEAR ( gl_date ) = YEAR ( '" . $gl_date . "' );
-		          ");
-        $kd = "";
-        $posted_no = "";
-        $tgl = date("my");
-        $gld = New DateTime($gl_date);
-        $kd2 = "4" . $gld->format('my');
-        if ($q->num_rows() > 0) {
-            foreach ($q->result() as $k) {
-                $tmp = ((int)$k->kt) + 1;
-                $kd = sprintf("%04s", $tmp);
+        $vldt = $this->M_ap->validation($noVoc);
+        
+        if(count($vldt) > 0){
+            $this->session->set_flashdata('error', 'Posting Failed, Try again later(double)!');
+        }else{
+            echo "next";
+            $q = $this->db->query("
+    		          SELECT
+    		            MAX( RIGHT ( gl_no, 4 ) ) AS kt 
+    		          FROM
+    		            gl_header 
+    		          WHERE
+    		            Fmodule = 'AP' 
+    		            AND MONTH ( gl_date ) = MONTH ( '" . $gl_date . "' )
+    		            AND YEAR ( gl_date ) = YEAR ( '" . $gl_date . "' );
+    		          ");
+            $kd = "";
+            $posted_no = "";
+            $tgl = date("my");
+            $gld = New DateTime($gl_date);
+            $kd2 = "4" . $gld->format('my');
+            if ($q->num_rows() > 0) {
+                foreach ($q->result() as $k) {
+                    $tmp = ((int)$k->kt) + 1;
+                    $kd = sprintf("%04s", $tmp);
+                }
+            } else {
+                $kd = "4" . $gld->format('my') . "0001";
             }
-        } else {
-            $kd = "4" . $gld->format('my') . "0001";
-        }
-        $posted_no = $kd2 . $kd;
+            $posted_no = $kd2 . $kd;
 
-        //validate transaction
-        $glh = $this->M_ap->cek_header($posted_no);
-        $gld = $this->M_ap->cek_detail($posted_no);
+            //validate transaction
+            $glh = $this->M_ap->cek_header($posted_no);
+            // echo $this->db->last_query();
+            $gld = $this->M_ap->cek_detail($posted_no);
 
+            
 
-        if (count($glh) > 0 OR count($gld) > 0) {
-            $this->session->set_flashdata('error', 'Posting Failed, Try again later(1)!');
-            $valid = false;
-        } else {
-            //1. to update status AP and add posted no
-            $data = $this->M_ap->save_posting($noVoc, $posted_no);
-
-            $gl_no = $posted_no;
-            $gl_date = $gl_date;
-            $noVoc = $this->input->post('noVoc');
-            $description = $this->input->post('description');
-            $total = $this->input->post('total');
-            $Fmodule = "AP";
-            $Fmonth = date("m");
-            $Fyear = date("Y");
-            $status = "posted";
-            $audit_user = $audit_user;
-            $audit_date = $audit_date;
-
-            $data = array(
-                'gl_no' => $gl_no,
-                'gl_date' => $gl_date,
-                'reff_no' => $noVoc,
-                'description' => $description,
-                'total' => $total,
-                'Fmodule' => $Fmodule,
-                'Fmonth' => $Fmonth,
-                'Fyear' => $Fyear,
-                'status' => $status,
-                'audit_user' => $audit_user,
-                'audit_date' => $audit_date,
-                'is_cashflow' => 'on'
-            );
-
-            $this->M_ap->save_glHead($data, 'gl_header');
-
-            if ($gl_no == '' OR empty($gl_no)) {
-                $this->session->set_flashdata('error', 'Posting Failed, Try again later(2)!');
+            if (count($glh) > 0 OR count($gld) > 0) {
+                $this->session->set_flashdata('error', 'Posting Failed, Try again later!');
                 $valid = false;
             } else {
-                //3. move from ar detail to gl detail
-                $data = $this->M_ap->save_glDetail($noVoc, $gl_no);
-                $this->session->set_flashdata('success', 'POSTED!');
-            }
+                //1. to update status AP and add posted no
+                $data = $this->M_ap->save_posting($noVoc, $posted_no);
 
-            //insert to gl_tag
-            $this->M_ap->save_gl_tag($noVoc, $gl_no);
+                $gl_no = $posted_no;
+                $gl_date = $gl_date;
+                $noVoc = $this->input->post('noVoc');
+                $description = $this->input->post('description');
+                $total = $this->input->post('total');
+                $Fmodule = "AP";
+                $Fmonth = date("m");
+                $Fyear = date("Y");
+                $status = "posted";
+                $audit_user = $audit_user;
+                $audit_date = $audit_date;
+
+                $data = array(
+                    'gl_no' => $gl_no,
+                    'gl_date' => $gl_date,
+                    'reff_no' => $noVoc,
+                    'description' => $description,
+                    'total' => $total,
+                    'Fmodule' => $Fmodule,
+                    'Fmonth' => $Fmonth,
+                    'Fyear' => $Fyear,
+                    'status' => $status,
+                    'audit_user' => $audit_user,
+                    'audit_date' => $audit_date,
+                    'is_cashflow' => 'on'
+                );
+
+                $this->M_ap->save_glHead($data, 'gl_header');
+
+                if ($gl_no == '' OR empty($gl_no)) {
+                    $this->session->set_flashdata('error', 'Posting Failed, Try again later(2)!');
+                    $valid = false;
+                } else {
+                    //3. move from ar detail to gl detail
+                    $data = $this->M_ap->save_glDetail($noVoc, $gl_no);
+                    $this->session->set_flashdata('success', 'POSTED!');
+                }
+
+                //insert to gl_tag
+                $this->M_ap->save_gl_tag($noVoc, $gl_no);
+            }
         }
+        
+
 
         // validation comit or rolback
         if ($valid) {

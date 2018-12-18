@@ -112,6 +112,8 @@
   <!-- INPUT MASK -->
   <link href="<?php echo base_url() ?>resource/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 
+  <script src="<?php echo base_url() ?>resource/global/plugins/pace/pace.min.js" type="text/javascript"></script>
+  <link href="<?php echo base_url() ?>resource/global/plugins/pace/themes/pace-theme-flash.css" rel="stylesheet" type="text/css" />
   <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
   <link rel="shortcut icon" type="image/png" href="<?php echo base_url() ?>/resource/images/GL.png"/>
   <link rel="shortcut icon" href="favicon.ico" />
